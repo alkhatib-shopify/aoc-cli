@@ -1,4 +1,1 @@
-.idea/
-input/**/*
-Gemfile.lock
-.env
+.byebug_history

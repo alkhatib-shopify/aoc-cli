@@ -8,3 +8,5 @@ gem 'rspec'
 gem 'rubocop', require: false
 gem 'rspec-core'
 gem 'thor'
+gem 'byebug'
+gem 'solargraph'
