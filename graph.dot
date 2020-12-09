@@ -44,6 +44,16 @@ digraph RGL__DirectedAdjacencyGraph {
         label = "dotted black"
     ]
 
+    "random color" [
+        fontsize = 8,
+        label = "random color"
+    ]
+
+    "other color" [
+        fontsize = 8,
+        label = "other color"
+    ]
+
     "light red" -> "bright white" [
         fontsize = 8
     ]
@@ -80,6 +90,10 @@ digraph RGL__DirectedAdjacencyGraph {
         fontsize = 8
     ]
 
+    "faded blue" -> "random color" [
+        fontsize = 8
+    ]
+
     "dark olive" -> "faded blue" [
         fontsize = 8
     ]
@@ -93,6 +107,10 @@ digraph RGL__DirectedAdjacencyGraph {
     ]
 
     "vibrant plum" -> "dotted black" [
+        fontsize = 8
+    ]
+
+    "dotted black" -> "other color" [
         fontsize = 8
     ]
 }
