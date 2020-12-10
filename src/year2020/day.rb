@@ -10,38 +10,26 @@ module Year2020
       p counts
       counts[1] * counts[3]
     end
-    def depth_first_search(adj_matrix, source_index, end_index)
-      node_stack = [source_index]
-      p node_stack
 
-      loop do
-        curr_node = node_stack.pop
-        p curr_node
-        return false if curr_node == nil
-        return true if curr_node == end_index
-
-        children = (0..adj_matrix.length-1).to_a.select do |i|
-          adj_matrix[curr_node][i] == 1
-        end
-
-        node_stack = node_stack + children
-      end
+    def path_exists(input, start, finish)
+      input.prepend(start)
+      input.append(finish)
+      input.each_cons(2).map {|a,b| b-a}.all? {|x| x <= 3}
     end
 
     def part2(input)
       input = input.lines.map(&:to_i).sort
-      input.prepend(0)
-      input.append(input.max+3)
-      adjacency_matrix = Array.new(input.length) { Array.new(input.length, 0)}
-      p adjacency_matrix
-      input.each_with_index do |source, index|
-        adjacency_matrix[index][index+1] = 1 if input[index+1] && (input[index+1] - input[index]).between?(1,3)
-        adjacency_matrix[index][index+2] = 1 if input[index+2] && (input[index+2] - input[index]).between?(1,3)
-        adjacency_matrix[index][index+3] = 1 if input[index+3] && (input[index+3] - input[index]).between?(1,3)
+      start, finish = 0, input.max+3
+      # start with full list of input, count if path exists [1,2,3,4]
+      # remove 1 element at a time and count if path exists [1,2,3],  [2,3,4], [1,3,4] [
+      total = 0
+      (0..input.length+1).each do |n|
+        p n
+        input.combination(n).map do |x|
+          total += 1 if path_exists(input - x, start, finish)
+        end
       end
-      p adjacency_matrix
-      p depth_first_search(adjacency_matrix, 0, input.length - 1)
-      nil
+      total
     end
   end
 end
