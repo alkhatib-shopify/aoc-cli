@@ -31,6 +31,77 @@ module Year2020
       end
     end
 
+    def neighbours2
+      neighbours = []
+
+      n = 0
+      n_cell = Cell.new(nil, nil, nil, FLOOR)
+
+      while n_cell != nil && n_cell.floor?
+        n += 1
+        n_cell = @world.cell_at(self.x - n, self.y - n)
+      end
+      neighbours.push(n_cell)
+
+      n = 0
+      n_cell = Cell.new(nil, nil, nil, FLOOR)
+      while n_cell != nil && n_cell.floor?
+        n += 1
+        n_cell = @world.cell_at(self.x - n, self.y)
+      end
+      neighbours.push(n_cell)
+
+      n = 0
+      n_cell = Cell.new(nil, nil, nil, FLOOR)
+      while n_cell != nil && n_cell.floor?
+        n += 1
+        n_cell = @world.cell_at(self.x - n, self.y + n)
+      end
+      neighbours.push(n_cell)
+
+      n = 0
+      n_cell = Cell.new(nil, nil, nil, FLOOR)
+      while n_cell != nil && n_cell.floor?
+        n += 1
+        n_cell = @world.cell_at(self.x, self.y - n)
+      end
+      neighbours.push(n_cell)
+
+      n = 0
+      n_cell = Cell.new(nil, nil, nil, FLOOR)
+      while n_cell != nil && n_cell.floor?
+        n += 1
+        n_cell = @world.cell_at(self.x, self.y + n)
+      end
+      neighbours.push(n_cell)
+
+      n = 0
+      n_cell = Cell.new(nil, nil, nil, FLOOR)
+      while n_cell != nil && n_cell.floor?
+        n += 1
+        n_cell = @world.cell_at(self.x + n, self.y - n)
+      end
+      neighbours.push(n_cell)
+
+      n = 0
+      n_cell = Cell.new(nil, nil, nil, FLOOR)
+      while n_cell != nil && n_cell.floor?
+        n += 1
+        n_cell = @world.cell_at(self.x + n, self.y)
+      end
+      neighbours.push(n_cell)
+
+      n = 0
+      n_cell = Cell.new(nil, nil, nil, FLOOR)
+      while n_cell != nil && n_cell.floor?
+        n += 1
+        n_cell = @world.cell_at(self.x + n, self.y + n)
+      end
+      neighbours.push(n_cell)
+
+      neighbours
+    end
+
     def neighbours
       neighbours = []
       neighbours.push(@world.cell_at(self.x - 1, self.y - 1))
@@ -53,8 +124,14 @@ module Year2020
       end
     end
 
+    def occupied_neighbours2
+      self.neighbours2.select do |n|
+        n && n.occupied?
+      end
+    end
+
     def ==(o)
-      o.state == state
+      o.class == self.class && o.state == state
     end
 
     def inspect
@@ -123,6 +200,19 @@ module Year2020
       affected.each(&:toggle!)
       return
     end
+
+    def next_generation2!
+      affected = []
+      cells.each do |cell|
+        if(cell.empty? && cell.occupied_neighbours2.length == 0)
+          affected.push cell
+        elsif(cell.occupied? && cell.occupied_neighbours2.length >= 5)
+          affected.push cell
+        end
+      end
+      affected.each(&:toggle!)
+      return
+    end
   end
 
   class Day11
@@ -136,18 +226,29 @@ module Year2020
       world = World.new(input)
       last_gen = ""
       while last_gen !=  world.cells.to_s
-        world.display
+        #world.display
         last_gen = world.cells.to_s
         world.next_generation!
-        puts "last_gen: #{last_gen}"
-        puts "new: #{world.cells}"
-        puts "result: #{last_gen ==  world.cells.to_s}"
+        #puts "last_gen: #{last_gen}"
+        #puts "new: #{world.cells}"
+        #puts "result: #{last_gen ==  world.cells.to_s}"
       end
       world.count
     end
 
     def part2(input)
-      nil
+      input = transform_input(input)
+      world = World.new(input)
+      last_gen = ""
+      while last_gen !=  world.cells.to_s
+        #world.display
+        last_gen = world.cells.to_s
+        world.next_generation2!
+        #puts "last_gen: #{last_gen}"
+        #puts "new: #{world.cells}"
+        #puts "result: #{last_gen ==  world.cells.to_s}"
+      end
+      world.count
     end
   end
 end
