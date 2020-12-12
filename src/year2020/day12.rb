@@ -31,7 +31,7 @@ module Year2020
       current_y = 0
       current_direction = "E"
       input.lines do |line|
-        direction, number = line.slice(0), line.slice(1,99).to_i
+        direction, number = line[0], line[1..].to_i
         if ROTATIONS.include?(direction)
           current_direction = rotate(current_direction, direction, number)
         elsif direction == "F"
@@ -120,7 +120,7 @@ module Year2020
       current_x = 0
       current_y = 0
       input.lines do |line|
-        direction, number = line.slice(0), line.slice(1,99).to_i
+        direction, number = line[0], line[1..].to_i
         if ROTATIONS.include?(direction)
           waypoint_x, waypoint_y = rotate_waypoint(direction, number, waypoint_x, waypoint_y)
         elsif direction == "F"
