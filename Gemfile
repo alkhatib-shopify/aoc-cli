@@ -11,3 +11,4 @@ gem 'thor'
 gem 'byebug'
 gem 'solargraph'
 gem 'rgl'
+gem "facets", require: false
